@@ -3,6 +3,9 @@
 ## Docs: https://jekyllrb.com/docs/configuration/
 # ---------------------------------------------------------------
 
+# Custome
+intensedebate_comments: true
+     
 # Site
 title: NexT
 subtitle:
