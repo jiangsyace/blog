@@ -6,8 +6,6 @@ tags:
 - jekyll
 ---
 
-
-
 ## 社会化评论系统
 
 主流的评论系统有[Disqus](http://disqus.com/), [IntenseDebate](https://intensedebate.com), [Livefyre](http://livefyre.com/)，[畅言](http://changyan.kuaizhan.com/)，[友言](http://www.uyan.cc/)等。尝试过Disqus，但是添加站点后，生成的二级域名怎么也访问不了，而且访问速度也很慢，遂放弃。后来改用[IntenseDebate](https://intensedebate.com)，不过界面看起来不太好看。
