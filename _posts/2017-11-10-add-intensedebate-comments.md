@@ -1,21 +1,20 @@
 ---
-title: jekyllÌí¼ÓIntenseDebateÆÀÂÛÖ§³Ö
+title: jekyllæ·»åŠ IntenseDebateè¯„è®ºæ”¯æŒ
 categories:
 - tech
 tags:
 - jekyll
 ---
 
-## Éç»á»¯ÆÀÂÛÏµÍ³
+ä¸»æµçš„è¯„è®ºç³»ç»Ÿæœ‰[Disqus](http://disqus.com/), [IntenseDebate](https://intensedebate.com), [Livefyre](http://livefyre.com/)ï¼Œ[ç•…è¨€](http://changyan.kuaizhan.com/)ï¼Œ[å‹è¨€](http://www.uyan.cc/)ç­‰ã€‚å°è¯•è¿‡Disqusï¼Œä½†æ˜¯æ·»åŠ ç«™ç‚¹åï¼Œç”Ÿæˆçš„äºŒçº§åŸŸåæ€ä¹ˆä¹Ÿè®¿é—®ä¸äº†ï¼Œè€Œä¸”è®¿é—®é€Ÿåº¦ä¹Ÿå¾ˆæ…¢ï¼Œé‚æ”¾å¼ƒã€‚åæ¥æ”¹ç”¨[IntenseDebate](https://intensedebate.com)ï¼Œä¸è¿‡ç•Œé¢çœ‹èµ·æ¥ä¸å¤ªå¥½çœ‹ã€‚
 
-Ö÷Á÷µÄÆÀÂÛÏµÍ³ÓĞ[Disqus](http://disqus.com/), [IntenseDebate](https://intensedebate.com), [Livefyre](http://livefyre.com/)£¬[³©ÑÔ](http://changyan.kuaizhan.com/)£¬[ÓÑÑÔ](http://www.uyan.cc/)µÈ¡£³¢ÊÔ¹ıDisqus£¬µ«ÊÇÌí¼ÓÕ¾µãºó£¬Éú³ÉµÄ¶ş¼¶ÓòÃûÔõÃ´Ò²·ÃÎÊ²»ÁË£¬¶øÇÒ·ÃÎÊËÙ¶ÈÒ²ºÜÂı£¬Ëì·ÅÆú¡£ºóÀ´¸ÄÓÃ[IntenseDebate](https://intensedebate.com)£¬²»¹ı½çÃæ¿´ÆğÀ´²»Ì«ºÃ¿´¡£
+<!-- more -->
 
-## °²×°IntenseDebate
+## å®‰è£…IntenseDebate
 
-+ ×¢²áIntenseDebateÕËºÅ
-  [https://intensedebate.com/signup](https://intensedebate.com/signup)
++ æ³¨å†ŒIntenseDebateè´¦å·
 
-+ °´ÕÕ²½Öè´´½¨Õ¾µã£¬×îÖÕ»ñµÃÒ»¶Îjs£¬¸´ÖÆ´úÂë±£´æÔÚ_includes/intensedebate.htmlÖĞ
++ æŒ‰ç…§æ­¥éª¤åˆ›å»ºç«™ç‚¹ï¼Œæœ€ç»ˆè·å¾—ä¸€æ®µjsï¼Œå¤åˆ¶ä»£ç ä¿å­˜åœ¨_includes/intensedebate.htmlä¸­
 ```
 <script>
       var idcomments_acct = 'xxxxx132e69';
@@ -26,16 +25,15 @@ tags:
 <script type='text/javascript' src='https://www.intensedebate.com/js/genericCommentWrapperV2.js'></script>
 ```
 
-+ ÔÚÅäÖÃÎÄ¼ş_config.ymlÖĞÌí¼ÓÆÀÂÛÅäÖÃ²ÎÊı£¬·½±ãÇĞ»»ÆÀÂÛ¹¦ÄÜ¡£
++ åœ¨é…ç½®æ–‡ä»¶_config.ymlä¸­æ·»åŠ è¯„è®ºé…ç½®å‚æ•°ï¼Œæ–¹ä¾¿åˆ‡æ¢è¯„è®ºåŠŸèƒ½ã€‚
 
 ```
      intensedebate_comments: true
 ```
-+ ÔÚ_layouts/post.htmlÎÄ¼şºóÃæÌí¼Ó´úÂëÀ´ÏÔÊ¾IntenseDebateÆÀÂÛ¿ò
-```html
-<div id="posts" class="posts-expand">
-  {% if site.intensedebate_comments %}
-    {% include intensedebate.html %}
-  {% endif %}
-</div>
++ åœ¨_layouts/post.htmlæ–‡ä»¶åé¢æ·»åŠ ä»£ç æ¥æ˜¾ç¤ºIntenseDebateè¯„è®ºæ¡†
+```
+    <div id="posts" class="posts-expand">
+    	```
+    	```
+    </div>
 ```
