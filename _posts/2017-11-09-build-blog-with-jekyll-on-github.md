@@ -27,7 +27,6 @@ jekyll serve
 bundle exec jekyll serve
 ```
 ## 接下来
-- 要起个名字
 - 添加评论功能
 
 ## 参考
