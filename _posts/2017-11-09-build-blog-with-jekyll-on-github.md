@@ -35,5 +35,6 @@ bundle exec jekyll serve
 [http://jekyll.com.cn/docs/home/](http://jekyll.com.cn/docs/home/)
 [http://duxjs.com/2016/11/01/setup-jekyll-on-windows/](http://duxjs.com/2016/11/01/setup-jekyll-on-windows/)
 [https://github.com/github/pages-gem/issues/376](https://github.com/github/pages-gem/issues/376)
+[http://theme-next.simpleyyt.com/](http://theme-next.simpleyyt.com/)
 
 
