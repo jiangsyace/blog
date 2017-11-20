@@ -1,6 +1,6 @@
 ---
 title: 博客搭建完成
-description: 虽然搭建完成，但是连名字都还没想好。
+description: 博客搭建完成
 categories:
 - tech
 tags:
