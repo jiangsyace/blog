@@ -3,7 +3,7 @@ title: spring-data-redis使用
 categories:
 - tech
 tags:
-- spring
+- Spring
 ---
 
 <!-- more -->
