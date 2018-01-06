@@ -7,7 +7,7 @@
 intensedebate_comments: true
      
 # Site
-title: NexT
+title: Jiangsy's Blog
 subtitle:
 description:
 author: Jiangsy
@@ -154,9 +154,9 @@ menu_icons:
 # ---------------------------------------------------------------
 
 # Schemes
-scheme: Muse
+#scheme: Muse
 #scheme: Mist
-#scheme: Pisces
+scheme: Pisces
 
 
 # ---------------------------------------------------------------
@@ -376,7 +376,7 @@ han: false
 #swiftype_key:
 
 # Baidu Analytics ID
-#baidu_analytics:
+baidu_analytics: e5709fd4c97c6d1a95b43cd3c4d0ae73
 
 # Duoshuo ShortName
 #duoshuo_shortname:
@@ -491,9 +491,9 @@ rating:
 # Show number of visitors to each article.
 # You can visit https://leancloud.cn get AppID and AppKey.
 leancloud_visitors:
-  enable: false
-  app_id: #<app_id>
-  app_key: #<app_key>
+  enable: true
+  app_id: VrQ7X2BW2IB0gWUnsbNPfizR-gzGzoHsz
+  app_key: KRQhTz7zib94HdVdLE1GIWQ8
 
 # Show PV/UV of the website/page with busuanzi.
 # Get more information on http://ibruce.info/2015/04/04/busuanzi/
