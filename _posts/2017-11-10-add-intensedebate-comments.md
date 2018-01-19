@@ -1,5 +1,6 @@
 ---
 title: jekyll添加IntenseDebate评论支持
+date: 2017-11-10 15:47:13
 categories:
 - tech
 tags:
@@ -28,12 +29,11 @@ tags:
 + 在配置文件_config.yml中添加评论配置参数，方便切换评论功能。
 
 ```
-     intensedebate_comments: true
+intensedebate_comments: true
 ```
 + 在_layouts/post.html文件后面添加代码来显示IntenseDebate评论框
 ```
-    <div id="posts" class="posts-expand">
-    	```
-    	```
-    </div>
+<div id="posts" class="posts-expand">
+	include intensedebate-comments.html
+</div>
 ```
