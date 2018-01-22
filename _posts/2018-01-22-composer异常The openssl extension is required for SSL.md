@@ -11,12 +11,12 @@ tags:
 使用composer创建laravel项目的时候，发现报错The openssl extension is required for SSL/TLS protection but is not available。
 
 ```
-  composer create-project laravel/laravel mylaravel1 5.4.* --prefer-dist
+composer create-project laravel/laravel mylaravel1 5.4.* --prefer-dist
 
-  [Composer\Exception\NoSslException]                                           
+[Composer\Exception\NoSslException]                                           
 
-  The openssl extension is required for SSL/TLS protection but is not available. If you can not enable the openssl ex
-  tension, you can disable this error, at your own risk, by setting the 'disable-tls' option to true.
+The openssl extension is required for SSL/TLS protection but is not available. If you can not enable the openssl ex
+tension, you can disable this error, at your own risk, by setting the 'disable-tls' option to true.
 ```
 
 <!-- more -->
