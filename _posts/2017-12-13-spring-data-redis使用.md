@@ -8,7 +8,11 @@ tags:
 ---
 
 <!-- more -->
+
+## 配置
+
 pom.xml
+
 ```
 <dependency>
     <groupId>redis.clients</groupId>
@@ -116,12 +120,30 @@ spring-cache.xml
 </bean>
 ```
 
-## 问题汇总
+## 易错点
 
-### 版本问题
-+ spring-data-redis与Spring的版本不对应，项目启动会报错
-+ 解决办法：进入spring-data-redis的pom文件查看依赖的spring版本是否与正在使用的spring版本一样，不一样则相应修改spring-data-redis的版本
+### spring-data-redis与Spring的版本不对应
 
+【环境参数】
+Redis版本：redis-2.4.5-win32-win64
+Spring原来的版本：4.1.7.RELEASE
+Spring修改后的版本：4.2.6.RELEASE
+
+【障碍描述】
+Question：NoSuchMethodError
+Invocation of init method failed; nested exception is java.lang.NoSuchMethodError:
+org.springframework.core.serializer.support.DeserializingConverter.<init>(Ljava/lang/ClassLoader;)V
+
+【解决步骤】
+进入spring-data-redis的pom文件查看依赖的spring版本是否与正在使用的spring版本一样，不一样则相应修改spring-data-redis的版本
+
+【原因分析】
+原因：Spring的版本过低
+在SDR的官网中，有如下一段描述：
+Spring Data Redis 1.x binaries requires JDK level 6.0 and above, and Spring Framework 4.2.6.RELEASE and above.
+
+【参考链接】
+http://docs.spring.io/spring-data/redis/docs/1.7.2.RELEASE/reference/html/
 
 
 
