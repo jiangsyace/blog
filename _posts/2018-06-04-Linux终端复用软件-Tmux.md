@@ -40,6 +40,7 @@ $ sudo apt-get install tmux
 ```
 $ yum install -y tmux
 ```
+
 ## Tmux的使用
 
 **运行tmux程序**
@@ -131,6 +132,7 @@ $ tmux list-sessions              列出所有会话
 ```
 ctrl+b 空格键         采用下一个内置布局，这个很有意思，在多屏时，用这个就会将多有屏幕竖着展示
 ctrl+b 方向键         切换窗格
+ctrl+b 数字           切换窗口
 ctrl+b ?               显示快捷键帮助
 ctrl+b s               以菜单方式显示和选择会话。这个常用到，可以选择进入哪个tmux
 ctrl+b d               脱离当前会话；这样可以暂时返回Shell界面，输入tmux attach能够重新进入之前的会话
@@ -156,5 +158,5 @@ ctrl+b :kill-server    删除所有session
 ```
 
 ## 文档链接
-[http://man.openbsd.org/OpenBSD-current/man1/tmux.1](http://man.openbsd.org/OpenBSD-current/man1/tmux.1)
+[http://man.openbsd.org/OpenBSD-current/man1/tmux.1](http://man.openbsd.org/OpenBSD-current/man1/tmux.1)  
 [https://linux.cn/article-8421-1.html](https://linux.cn/article-8421-1.html) 
