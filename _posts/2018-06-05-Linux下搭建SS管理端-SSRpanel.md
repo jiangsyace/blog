@@ -8,8 +8,6 @@ tags:
 ---
 最近发现一个SS(R)的账号管理，感觉不错，试用一下。  
 github：[https://github.com/ssrpanel/ssrpanel](https://github.com/ssrpanel/ssrpanel) 
-界面预览：  
-![]({{site.upload | relative_url}}/2018-06-03_201333.png)
 <!-- more -->
 
 ## 安装过程
