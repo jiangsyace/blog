@@ -57,6 +57,7 @@ Shiro提供了一些可以直接使用的Realms，如果默认的Realms不能满
 
 3. 与Spring MVC集成  
 **Filter：**
+
 ```
 
 @Service
@@ -123,9 +124,13 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 		 WebUtils.issueRedirect(request, response, getSuccessUrl(), null, true);
 	}
 }
+
 ```
+
 **Realm：**
+
 ```
+
 @Service
 public class SystemAuthorizingRealm extends AuthorizingRealm {
 
@@ -239,10 +244,13 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 		setCredentialsMatcher(matcher);
 	}
 }
+
 ```
 
 **spring-shiro.xml：**
+
 ```
+
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
@@ -327,6 +335,7 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 		<property name="securityManager" ref="securityManager" />
 	</bean>
 </beans>
+
 ```
 
 **web.xml**
