@@ -240,6 +240,7 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 	}
 }
 ```
+
 **spring-shiro.xml：**
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -254,7 +255,6 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
                         http://www.springframework.org/schema/mvc  
                         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd" 
 						default-lazy-init="true">
-	
 
 	<description>Spring Shiro Configuration</description>
 	<!-- 缓存管理 -->
@@ -328,6 +328,7 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 	</bean>
 </beans>
 ```
+
 **web.xml**
 ```
 <filter>
@@ -347,140 +348,138 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
 4. 与Springboot集成
 
 **ShiroConfig.java**
-```
 
-/** 
- * Shiro配置
- */  
-@Configuration  
-public class ShiroConfig {  
+	/** 
+	* Shiro配置
+	*/  
+	@Configuration  
+	public class ShiroConfig {  
 
-	private static final Logger logger = LoggerFactory.getLogger(ShiroConfig.class);
-	
-	@Bean
-	public FilterRegistrationBean delegatingFilterProxy(){
-	    FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-	    DelegatingFilterProxy proxy = new DelegatingFilterProxy();
-	    proxy.setTargetFilterLifecycle(true);
-	    proxy.setTargetBeanName("shiroFilter");
-	    filterRegistrationBean.setFilter(proxy);
-	    return filterRegistrationBean;
-	}
-	
-	/**
-	 * FilterName  Class
-	 * anon        org.apache.shiro.web.filter.authc.AnonymousFilter
-	 * authc       org.apache.shiro.web.filter.authc.FormAuthenticationFilter
-	 * authcBasic  org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter
-	 * perms       org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter
-	 * port        org.apache.shiro.web.filter.authz.PortFilter
-	 * rest        org.apache.shiro.web.filter.authz.HttpMethodPermissionFilter
-	 * roles       org.apache.shiro.web.filter.authz.RolesAuthorizationFilter
-	 * ssl         org.apache.shiro.web.filter.authz.SslFilter
-	 * user        org.apache.shiro.web.filter.authc.UserFilter
-	 * @param securityManager
-	 * @return
-	 */
-    @Bean("shiroFilter")
-    public ShiroFilterFactoryBean shiroFilter(@Qualifier("securityManager")SecurityManager securityManager) {  
-    	logger.info("====>ShiroConfiguration.shirFilter()");  
-        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();  
-        shiroFilterFactoryBean.setSecurityManager(securityManager);  
-        
-        //配置shiro默认登录界面地址，前后端分离中登录界面跳转应由前端路由控制，后台仅返回json数据  
-        shiroFilterFactoryBean.setLoginUrl("/login");  
-        // 登录成功后要跳转的链接  
-        shiroFilterFactoryBean.setSuccessUrl("/user");  
-        //未授权界面 
-        shiroFilterFactoryBean.setUnauthorizedUrl("/unauth");
-  
-        //配置过滤器
-		Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
-		LogoutFilter logoutFilter = new LogoutFilter();
-		logoutFilter.setRedirectUrl("/login");
-		filters.put("logout", logoutFilter);
-
-		FormAuthenticationFilter authcFilter = new FormAuthenticationFilter();
-		filters.put("authc", authcFilter);
-		shiroFilterFactoryBean.setFilters(filters);
+		private static final Logger logger = LoggerFactory.getLogger(ShiroConfig.class);
 		
-        //配置访问权限
-        //filterChainDefinitionMap必须是LinkedHashMap因为它必须保证有序
-        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-        //注意过滤器配置顺序 不能颠倒  
+		@Bean
+		public FilterRegistrationBean delegatingFilterProxy(){
+			FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+			DelegatingFilterProxy proxy = new DelegatingFilterProxy();
+			proxy.setTargetFilterLifecycle(true);
+			proxy.setTargetBeanName("shiroFilter");
+			filterRegistrationBean.setFilter(proxy);
+			return filterRegistrationBean;
+		}
+		
+		/**
+		* FilterName  Class
+		* anon        org.apache.shiro.web.filter.authc.AnonymousFilter
+		* authc       org.apache.shiro.web.filter.authc.FormAuthenticationFilter
+		* authcBasic  org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter
+		* perms       org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter
+		* port        org.apache.shiro.web.filter.authz.PortFilter
+		* rest        org.apache.shiro.web.filter.authz.HttpMethodPermissionFilter
+		* roles       org.apache.shiro.web.filter.authz.RolesAuthorizationFilter
+		* ssl         org.apache.shiro.web.filter.authz.SslFilter
+		* user        org.apache.shiro.web.filter.authc.UserFilter
+		* @param securityManager
+		* @return
+		*/
+		@Bean("shiroFilter")
+		public ShiroFilterFactoryBean shiroFilter(@Qualifier("securityManager")SecurityManager securityManager) {  
+			logger.info("====>ShiroConfiguration.shirFilter()");  
+			ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();  
+			shiroFilterFactoryBean.setSecurityManager(securityManager);  
+			
+			//配置shiro默认登录界面地址，前后端分离中登录界面跳转应由前端路由控制，后台仅返回json数据  
+			shiroFilterFactoryBean.setLoginUrl("/login");  
+			// 登录成功后要跳转的链接  
+			shiroFilterFactoryBean.setSuccessUrl("/user");  
+			//未授权界面 
+			shiroFilterFactoryBean.setUnauthorizedUrl("/unauth");
+	
+			//配置过滤器
+			Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
+			LogoutFilter logoutFilter = new LogoutFilter();
+			logoutFilter.setRedirectUrl("/login");
+			filters.put("logout", logoutFilter);
 
-        // 配置不会被拦截的链接 顺序判断  
-        filterChainDefinitionMap.put("/static/**", "anon");
-        filterChainDefinitionMap.put("/hello", "anon");
-        filterChainDefinitionMap.put("/index", "anon");
-        //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了，登出后跳转配置的loginUrl  
-        filterChainDefinitionMap.put("/logout", "logout");
-        filterChainDefinitionMap.put("/login", "authc");
-        //用户，需要角色权限 “user”
-        filterChainDefinitionMap.put("/user/**", "authc,roles[user]");
+			FormAuthenticationFilter authcFilter = new FormAuthenticationFilter();
+			filters.put("authc", authcFilter);
+			shiroFilterFactoryBean.setFilters(filters);
+			
+			//配置访问权限
+			//filterChainDefinitionMap必须是LinkedHashMap因为它必须保证有序
+			Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
+			//注意过滤器配置顺序 不能颠倒  
 
-        filterChainDefinitionMap.put("/auth/**", "authcBasic");
-        
-        //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
-        filterChainDefinitionMap.put("/**", "user");
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-        return shiroFilterFactoryBean;
-    }  
-  
-    //配置核心安全事务管理器
-    @Bean(name="securityManager")
-    public SecurityManager securityManager(@Qualifier("authRealm") AuthRealm authRealm) {
-    	logger.info("====>securityManager已经加载");
-        DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
-        manager.setRealm(authRealm);
-        return manager;
-    }
-    
-    //配置自定义的权限登录器
-    @Bean(name="authRealm")
-    public AuthRealm authRealm(@Qualifier("credentialsMatcher") HashedCredentialsMatcher matcher) {
-    	AuthRealm authRealm = new AuthRealm();
-    	authRealm.setCredentialsMatcher(matcher);
-        return authRealm;
-    }
-    
-    /**  
-     * 凭证匹配器  
-     * （由于我们的密码校验交给Shiro的SimpleAuthenticationInfo进行处理了）  
-     * @return  
-     */  
-    @Bean(name = "credentialsMatcher")
-    public HashedCredentialsMatcher hashedCredentialsMatcher() {  
-        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();  
-        hashedCredentialsMatcher.setHashAlgorithmName("SHA-1");//散列算法:SHA-1,MD5
-        hashedCredentialsMatcher.setHashIterations(1023);//散列的次数
-        return hashedCredentialsMatcher;  
-    }  
+			// 配置不会被拦截的链接 顺序判断  
+			filterChainDefinitionMap.put("/static/**", "anon");
+			filterChainDefinitionMap.put("/hello", "anon");
+			filterChainDefinitionMap.put("/index", "anon");
+			//配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了，登出后跳转配置的loginUrl  
+			filterChainDefinitionMap.put("/logout", "logout");
+			filterChainDefinitionMap.put("/login", "authc");
+			//用户，需要角色权限 “user”
+			filterChainDefinitionMap.put("/user/**", "authc,roles[user]");
 
-    @Bean
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor(){
-        return new LifecycleBeanPostProcessor();
-    }
-    @Bean
-    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator(){
-        DefaultAdvisorAutoProxyCreator creator=new DefaultAdvisorAutoProxyCreator();
-        creator.setProxyTargetClass(true);
-        return creator;
-    }
-    /** 
-     * 开启shiro aop注解支持. 
-     * 使用代理方式;所以需要开启代码支持; 
-     * @param securityManager 
-     * @return 
-     */  
-    @Bean  
-    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {  
-        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();  
-        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);  
-        return authorizationAttributeSourceAdvisor;  
-    }  
-}
-```
+			filterChainDefinitionMap.put("/auth/**", "authcBasic");
+			
+			//主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截
+			filterChainDefinitionMap.put("/**", "user");
+			shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+			return shiroFilterFactoryBean;
+		}  
+	
+		//配置核心安全事务管理器
+		@Bean(name="securityManager")
+		public SecurityManager securityManager(@Qualifier("authRealm") AuthRealm authRealm) {
+			logger.info("====>securityManager已经加载");
+			DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
+			manager.setRealm(authRealm);
+			return manager;
+		}
+		
+		//配置自定义的权限登录器
+		@Bean(name="authRealm")
+		public AuthRealm authRealm(@Qualifier("credentialsMatcher") HashedCredentialsMatcher matcher) {
+			AuthRealm authRealm = new AuthRealm();
+			authRealm.setCredentialsMatcher(matcher);
+			return authRealm;
+		}
+		
+		/**  
+		* 凭证匹配器  
+		* （由于我们的密码校验交给Shiro的SimpleAuthenticationInfo进行处理了）  
+		* @return  
+		*/  
+		@Bean(name = "credentialsMatcher")
+		public HashedCredentialsMatcher hashedCredentialsMatcher() {  
+			HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();  
+			hashedCredentialsMatcher.setHashAlgorithmName("SHA-1");//散列算法:SHA-1,MD5
+			hashedCredentialsMatcher.setHashIterations(1023);//散列的次数
+			return hashedCredentialsMatcher;  
+		}  
+
+		@Bean
+		public LifecycleBeanPostProcessor lifecycleBeanPostProcessor(){
+			return new LifecycleBeanPostProcessor();
+		}
+		@Bean
+		public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator(){
+			DefaultAdvisorAutoProxyCreator creator=new DefaultAdvisorAutoProxyCreator();
+			creator.setProxyTargetClass(true);
+			return creator;
+		}
+		/** 
+		* 开启shiro aop注解支持. 
+		* 使用代理方式;所以需要开启代码支持; 
+		* @param securityManager 
+		* @return 
+		*/  
+		@Bean  
+		public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {  
+			AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();  
+			authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);  
+			return authorizationAttributeSourceAdvisor;  
+		}  
+	}
 
 ## 参考
 
