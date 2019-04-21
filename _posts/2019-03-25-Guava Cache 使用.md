@@ -1,10 +1,11 @@
 ---
-title: Guava - 好用的Java开源类库
+title: Guava Cache 使用
 date: 2019-3-25 20:10:26
 categories:
 - tech
 tags:
 - java
+- guava
 ---
 
 Java开源工具类库
