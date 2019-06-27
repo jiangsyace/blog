@@ -374,6 +374,7 @@ String noDigits = CharMatcher.JAVA_DIGIT.replaceFrom(string, "*");
 String lowerAndDigit = CharMatcher.JAVA_DIGIT.or(CharMatcher.JAVA_LOWER_CASE).retainFrom(string);
 ```
 **大小写格式[CaseFormat]**
+
 CaseFormat被用来方便地在各种ASCII大小写规范间转换字符串——比如，编程语言的命名规范。CaseFormat支持的格式如下：
 | 格式 |  范例 |
 | --------   | :-----  |
