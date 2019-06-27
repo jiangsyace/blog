@@ -107,23 +107,23 @@ ImmutableSet.<Color>builder().add(new Color(0, 255, 255)).add(new Color(0, 191, 
   + LinkedHashMultiset: 元素存放于 LinkedHashMap，即元素的排列顺序由第一次放入的顺序决定
   + TreeMultiset:元素被排序存放于TreeMap
   + EnumMultiset: 元素必须是 enum 类型
-  + ImmutableMultiset: 不可修改的 Mutiset
+  + ImmutableMultiset: 不可修改的 Mutiset  
 
-```
-//统计单词出现的次数
-String str = "this is a cat and that is a mice where is the food ";
-String[] letters = str.split(" ");
-Multiset<String> set = HashMultiset.create();
-for(String letter : letters){
-    set.add(letter);
-}
-for(String letter : set.elementSet()){
-    System.err.println(letter + ":" + set.count(temp));
-}
-for(Multiset.Entry<String> entry : set.entrySet()){
-    System.out.println(entry.getElement() + ":" + entry.getCount());
-}
-```
+    ```
+    //统计单词出现的次数
+    String str = "this is a cat and that is a mice where is the food ";
+    String[] letters = str.split(" ");
+    Multiset<String> set = HashMultiset.create();
+    for(String letter : letters){
+        set.add(letter);
+    }
+    for(String letter : set.elementSet()){
+        System.err.println(letter + ":" + set.count(temp));
+    }
+    for(Multiset.Entry<String> entry : set.entrySet()){
+        System.out.println(entry.getElement() + ":" + entry.getCount());
+    }
+    ```
 
 + Multimap：一键多值的Map
   + ArrayListMultiMap 
