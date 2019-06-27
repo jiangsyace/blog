@@ -87,7 +87,6 @@ Ordering.natural().max(1, 2);
 List<String> names = Lists.newArrayList("John", "Jane", "Adam", "Tom");
 Iterable<String> result = Iterables.filter(names, Predicates.containsPattern("a"));
 Collection<String> result = Collections2.filter(names, Predicates.containsPattern("a"));
-
 ```
 
 ### 集合
@@ -109,6 +108,7 @@ ImmutableSet.<Color>builder().add(new Color(0, 255, 255)).add(new Color(0, 191, 
   + TreeMultiset:元素被排序存放于TreeMap
   + EnumMultiset: 元素必须是 enum 类型
   + ImmutableMultiset: 不可修改的 Mutiset
+
 ```
 //统计单词出现的次数
 String str = "this is a cat and that is a mice where is the food ";
@@ -123,8 +123,8 @@ for(String letter : set.elementSet()){
 for(Multiset.Entry<String> entry : set.entrySet()){
     System.out.println(entry.getElement() + ":" + entry.getCount());
 }
-
 ```
+
 + Multimap：一键多值的Map
   + ArrayListMultiMap 
   + HashMultiMap
@@ -150,27 +150,26 @@ for(Multiset.Entry<String> entry : set.entrySet()){
     numberDefaults.putInstance(Double.class, 1D);
   ```
 + RangeSet：存储一些不为空的也不相交的范围的数据结构。
-```
-//当添加一个range到一个RangeSet之后，任何有连续的range将被自动合并，而空的range将被自动去除
-RangeSet<Integer> rangeSet = TreeRangeSet.create();
-rangeSet.add(Range.closed(1, 10));// [[1..10]]
-rangeSet.add(Range.closedOpen(11, 15));// 不相连区间:[[1..10], [11..15)]
-rangeSet.add(Range.open(15, 20)); // 相连区间，自动合并:[[1..10], [11..15), (15..20)]
-rangeSet.add(Range.openClosed(0, 0));// 空区间，自动去除:[[1..10], [11..15), (15..20)]
-rangeSet.remove(Range.open(5, 10)); // 分割:[[1..5], [10..10], [11..15), (15..20)]
-System.out.println(rangeSet);
-
-```
+    ```
+    //当添加一个range到一个RangeSet之后，任何有连续的range将被自动合并，而空的range将被自动去除
+    RangeSet<Integer> rangeSet = TreeRangeSet.create();
+    rangeSet.add(Range.closed(1, 10));// [[1..10]]
+    rangeSet.add(Range.closedOpen(11, 15));// 不相连区间:[[1..10], [11..15)]
+    rangeSet.add(Range.open(15, 20)); // 相连区间，自动合并:[[1..10], [11..15), (15..20)]
+    rangeSet.add(Range.openClosed(0, 0));// 空区间，自动去除:[[1..10], [11..15), (15..20)]
+    rangeSet.remove(Range.open(5, 10)); // 分割:[[1..5], [10..10], [11..15), (15..20)]
+    System.out.println(rangeSet);
+    ```
 + RangeMap：非连续非空的range对应的集合。和RangeSet不同，RangeMap不会合并相邻的映射，即便相邻的区间映射到相同的值
-```
-RangeMap<Integer, String> rangeMap = TreeRangeMap.create();
-rangeMap.put(Range.closed(1, 10), "foo"); //{[1,10] => "foo"}
-rangeMap.put(Range.open(3, 6), "bar"); //{[1,3] => "foo", (3,6) => "bar", [6,10] => "foo"}
-rangeMap.put(Range.open(10, 20), "foo"); //{[1,3] => "foo", (3,6) => "bar", [6,10] => "foo", (10,20) => "foo"}
-rangeMap.remove(Range.closed(5, 11)); //{[1,3] => "foo", (3,5) => "bar", (11,20) => "foo"}
-```
+    ```
+    RangeMap<Integer, String> rangeMap = TreeRangeMap.create();
+    rangeMap.put(Range.closed(1, 10), "foo"); //{[1,10] => "foo"}
+    rangeMap.put(Range.open(3, 6), "bar"); //{[1,3] => "foo", (3,6) => "bar", [6,10] => "foo"}
+    rangeMap.put(Range.open(10, 20), "foo"); //{[1,3] => "foo", (3,6) => "bar", [6,10] => "foo", (10,20) => "foo"}
+    rangeMap.remove(Range.closed(5, 11)); //{[1,3] => "foo", (3,5) => "bar", (11,20) => "foo"}
+    ```
 #### 集合工具类
-提供java.util.Collections中没有的集合工具，如Maps、Lists、Sets
+提供java.util.Collections中没有的集合工具，如Maps、Lists、Sets  
 ```
 //推断范型，初始化元素和容量的静态工厂方法
 List<Color> colorList = Lists.newArrayList();
@@ -239,7 +238,7 @@ ImmutableMap<String, String> newMap = Maps.uniqueIndex(strList, new Function<Str
 ```
 
 ### 缓存
-Guava Cache：本地缓存实现，支持多种缓存过期策略
+Guava Cache：本地缓存实现，支持多种缓存过期策略  
 ```
 // LoadingCache是Cache的缓存实现
 LoadingCache<String, Object> cache = CacheBuilder.newBuilder()
@@ -357,6 +356,7 @@ System.out.println(Strings.commonPrefix("abc123", "abc456"));
 System.out.println(Strings.commonSuffix("123abc", "456abc"));
 ```
 **字符匹配器[CharMatcher]**
+```
 //移除control字符
 String noControl = CharMatcher.JAVA_ISO_CONTROL.removeFrom(string);
 //只保留数字字符
@@ -367,7 +367,7 @@ String spaced = CharMatcher.WHITESPACE.trimAndCollapseFrom(string, ' ');
 String noDigits = CharMatcher.JAVA_DIGIT.replaceFrom(string, "*");
 // 只保留数字和小写字母
 String lowerAndDigit = CharMatcher.JAVA_DIGIT.or(CharMatcher.JAVA_LOWER_CASE).retainFrom(string);
-
+```
 **大小写格式[CaseFormat]**
 CaseFormat被用来方便地在各种ASCII大小写规范间转换字符串——比如，编程语言的命名规范。CaseFormat支持的格式如下：
 | 格式 |  范例 |
