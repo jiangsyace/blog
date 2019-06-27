@@ -170,6 +170,7 @@ ImmutableSet.<Color>builder().add(new Color(0, 255, 255)).add(new Color(0, 191, 
     ```
 #### 集合工具类
 提供java.util.Collections中没有的集合工具，如Maps、Lists、Sets  
+
 ```
 //推断范型，初始化元素和容量的静态工厂方法
 List<Color> colorList = Lists.newArrayList();
@@ -239,6 +240,7 @@ ImmutableMap<String, String> newMap = Maps.uniqueIndex(strList, new Function<Str
 
 ### 缓存
 Guava Cache：本地缓存实现，支持多种缓存过期策略  
+
 ```
 // LoadingCache是Cache的缓存实现
 LoadingCache<String, Object> cache = CacheBuilder.newBuilder()
@@ -294,6 +296,7 @@ cacheStats.evictionCount();//缓存项被回收的总数，不包括显式清除
 ### 字符串处理
 
 **连接器[Joiner]**
+
 ```
 List<String> list = Lists.newArrayList("a", null, "b");
 System.out.println(Joiner.on("|").skipNulls().join(list));
@@ -341,6 +344,7 @@ System.out.println(Splitter.on('|').trimResults().split("foo|bar ||baz "));
 Lists.newArrayList(Splitter.on('|').split("foo|bar ||baz "));
 ```
 **字符串工具类[Strings]**
+
 ```
 //向右填充x
 System.out.println(Strings.padEnd("12345", 10, 'x'));
@@ -356,6 +360,7 @@ System.out.println(Strings.commonPrefix("abc123", "abc456"));
 System.out.println(Strings.commonSuffix("123abc", "456abc"));
 ```
 **字符匹配器[CharMatcher]**
+
 ```
 //移除control字符
 String noControl = CharMatcher.JAVA_ISO_CONTROL.removeFrom(string);
@@ -379,6 +384,7 @@ CaseFormat被用来方便地在各种ASCII大小写规范间转换字符串—�
 | UPPER_UNDERSCORE | 	UPPER_UNDERSCORE |
 
 CaseFormat的用法很直接：
+
 ```
 CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, "CONSTANT_NAME")); // returns "constantName"
 ```
