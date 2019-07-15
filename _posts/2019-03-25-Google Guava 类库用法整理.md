@@ -375,14 +375,14 @@ String lowerAndDigit = CharMatcher.JAVA_DIGIT.or(CharMatcher.JAVA_LOWER_CASE).re
 ```
 **大小写格式[CaseFormat]**
 
-CaseFormat被用来方便地在各种ASCII大小写规范间转换字符串——比如，编程语言的命名规范。CaseFormat支持的格式如下：
-| 格式 |  范例 |
-| --------   | :-----  |
-| LOWER_CAMEL      | 	lowerCamel       |
-| LOWER_HYPHEN     | 	lower-hyphen     |
-| LOWER_UNDERSCORE | 	lower_underscore |
-| UPPER_CAMEL      | 	UpperCamel       |
-| UPPER_UNDERSCORE | 	UPPER_UNDERSCORE |
+CaseFormat被用来方便地在各种ASCII大小写规范间转换字符串——比如，编程语言的命名规范。CaseFormat支持的格式如下：  
+| 格式 |  范例 |  
+| --------   | :-----  |  
+| LOWER_CAMEL      | 	lowerCamel       |  
+| LOWER_HYPHEN     | 	lower-hyphen     |  
+| LOWER_UNDERSCORE | 	lower_underscore |  
+| UPPER_CAMEL      | 	UpperCamel       |  
+| UPPER_UNDERSCORE | 	UPPER_UNDERSCORE |  
 
 CaseFormat的用法很直接：
 
