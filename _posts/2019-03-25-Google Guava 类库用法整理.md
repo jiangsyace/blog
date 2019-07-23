@@ -329,7 +329,9 @@ System.out.println(Joiner.on("&").withKeyValueSeparator("=").join(map));
 | Splitter.on(String)        | 按字符串拆分        | Splitter.on(“,   “)    |
 | Splitter.on(Pattern) Splitter.onPattern(String) | 按正则表达式拆分    | Splitter.onPattern(“\r?\n”)    |
 | Splitter.fixedLength(int)  | 按固定长度拆分；最后一段可能比给定长度短，但不会为空。 | Splitter.fixedLength(3)   |
+
 **拆分器修饰符**
+
 | 方法 |  描述 |
 | --------   | :-----  |
 | omitEmptyStrings()  | 	从结果中自动忽略空字符串  |
@@ -375,7 +377,8 @@ String lowerAndDigit = CharMatcher.JAVA_DIGIT.or(CharMatcher.JAVA_LOWER_CASE).re
 ```
 **大小写格式[CaseFormat]**
 
-CaseFormat被用来方便地在各种ASCII大小写规范间转换字符串——比如，编程语言的命名规范。CaseFormat支持的格式如下：  
+CaseFormat被用来方便地在各种ASCII大小写规范间转换字符串——比如，编程语言的命名规范。CaseFormat支持的格式如下： 
+
 | 格式 |  范例 |  
 | --------   | :-----  |  
 | LOWER_CAMEL      | 	lowerCamel       |  
