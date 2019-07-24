@@ -106,7 +106,7 @@ public HashMap() {
 }
 /**
  * 构造一个映射关系与指定Map相同的HashMap
- * 新HashMap使用默认的负载因子(0.75).初始容量经过计算，将指定Map大小增加1/3的容量(除以负载因子0.75)，足以存放指定Map，最小值为默认容量
+ * 新HashMap使用默认的负载因子(0.75).初始容量经过计算，将指定Map大小增加1/3的容量(除以负载因子0.75)，最小值为默认容量
  */
 public HashMap(Map<? extends K, ? extends V> m) {
     this(Math.max((int) (m.size() / DEFAULT_LOAD_FACTOR) + 1,
@@ -209,22 +209,30 @@ void createEntry(int hash, K key, V value, int bucketIndex) {
 static int indexFor(int h, int length) {
     // assert Integer.bitCount(length) == 1 : "length must be a non-zero power of 2";
     //length为table大小(2^n),length-1使得低位全为1，高位全为0，位与之后的结果一定在0 -> n-1的范围内
-    //如果length不是2的次幂，例如length为 15，length-1为14转换为二进制为1110，再于h与操作，最后一位都是0，而0011，0101，1001，1011，0111，1101这几个位置永远不能存放元素，空间浪费相当大，更糟的是这种情况中，数组可以使用的位置比数组长度小了很多，这意味着进一步增加了碰撞的几率，减慢了查询的效率！这样就会造成空间的浪费。
+    //如果length不是2的次幂，例如length为 15，length-1为14转换为二进制为1110，再于h与操作，最后一位都是0，
+    //而0011，0101，1001，1011，0111，1101这几个位置永远不能存放元素，空间浪费相当大，
+    //更糟的是这种情况中，数组可以使用的位置比数组长度小了很多，这意味着进一步增加了碰撞的几率，减慢了查询的效率！这样就会造成空间的浪费。
     return h & (length-1);
 }
 ```
 在计算桶下标的过程中，`h & (length-1)` 这个位运算等同于`h % length`。当然，前提是length必须是2^n，原因如下：  
-初始容量 x = 1 << 4，即 x 为2的4次方，转换成2进制如下：
+初始容量 x = 1 << 4，即 x 为2的4次方，转换成2进制如下：  
+```
 x   : 00010000  
 x-1 : 00001111  
-将一个数 y 与 x-1 做与运算，可以去除 y 位级表示的第 4 位以上数：  
+```
+将一个数 y 与 x-1 做与运算，可以去除 y 位级表示的第 4 位以上数： 
+``` 
 y       : 10010100  
 x-1     : 00001111  
 y&(x-1) : 00000010  
-这个性质使 y & （x - 1）和 y 对 x 取模效果是一样的：  
+```
+这个性质使 y & （x - 1）和 y 对 x 取模效果是一样的： 
+``` 
 y   : 10010100  
 x   : 00010000  
 y%x : 00000100  
+```
 
 位运算的代价比求模运算小的多，因此在进行这种计算时用位运算的话能带来更高的性能。  
 
@@ -240,7 +248,8 @@ public V get(Object key) {
     //根据key获取键值对
     Entry<K,V> entry = getEntry(key);
 
-    //这里没有找到键值对或者值为null都有可能返回null，这也是为什么不能使用get方法来判断key是否存在，而应该使用containsKey，containsKey中只判断entry是否等于null
+    //这里没有找到键值对或者值为null都有可能返回null，这也是为什么不能使用get方法来判断key是否存在，
+    //应该使用containsKey，containsKey中只判断entry是否等于null
     return null == entry ? null : entry.getValue();
 }
 final Entry<K,V> getEntry(Object key) {
