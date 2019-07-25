@@ -47,10 +47,16 @@ $ yum install -y tmux
 ```
 $ tmux                            运行tmux程序
 $ tmux -V                         查看tmux当前版本
-$ tmux new                        新建名为session的会话
-$ tmux new -s session             新建名为session的会话
-$ tmux new -s session -d          在后台建立会话 
-$ tmux kill-session -t session    删除session
+$ tmux new                        新建默认名称的会话
+$ tmux new -s s1                  新建名为s1的会话
+$ tmux new -s s1 -d               在后台建立会话 
+$ tmux rename-seesion s2          重命名上次打开的会话为s2
+$ tmux rename -t s1 s2　        　重命名会话s1为s2
+$ tmux switch -t s2               切换到会话s2
+$ tmux kill-session　           　删除上次打开的会话
+$ tmux kill-session -t s1         删除会话s1
+$ tmux kill-session -a -t s1　  　删除除s1外的所有会话
+$ tmux kill-server　　            关闭所有会话
 $ tmux ls                         列出所有会话
 $ tmux list-sessions              列出所有会话
 ```
@@ -76,7 +82,7 @@ $ tmux attach -t session  通过会话名连接一个会话
 
 ### tmux快捷键
 
-**注意**：进入tmux面板后，一定要先按ctrl+b，然后松开，再按其他的组合键才生效。
+**注意**：进入tmux窗口后，一定要先按ctrl+b，然后松开，再按其他的组合键才生效。
 
 ```
 ctrl+b ?                  显示快捷键帮助
@@ -84,11 +90,11 @@ ctrl+b ?                  显示快捷键帮助
 
 #### Session相关操作
 ```
-ctrl+b s                  查看/切换session
-ctrl+b d                  脱离当前session，回到shell的终端环境
-ctrl+b $                  重命名当前session 	
-ctrl+b :kill-session      删除当前session
-ctrl+b :kill-server       删除所有session
+ctrl+b s                  查看/切换会话
+ctrl+b d                  脱离当前会话，回到终端环境
+ctrl+b $                  重命名当前会话	
+ctrl+b :kill-session      删除当前会话
+ctrl+b :kill-server       删除所有会话
 ```
 
 #### Window相关操作
@@ -107,7 +113,6 @@ ctrl+b p                  选择上一个窗格
 ctrl+b q                  查看所有窗格的编号
 ctrl+b "                  垂直拆分出一个新窗格
 ctrl+b %                  水平拆分出一个新窗格
-ctrl+b z                  暂时把一个窗体放到最大
 ctrl+b x                  删除窗格
 ctrl+b :                  命令模式
 ctrl+b !                  把当前窗格变为新窗口
@@ -120,11 +125,17 @@ ctrl+b 方向键             切换窗格
 ```
 
 ## Tmux配置
-tmux配置文件在`~/.tmux.conf `，不存在可以新建该文件。  
-修改配置文件后，重启tmux或者在命令模式（按ctrl+b : )，输入以下命令生效：
+编辑tmux配置文件`vim ~/.tmux.conf `  
+修改配置文件后，在命令模式（按ctrl+b : )，输入以下命令生效：
 ``` 
-source ~/.tmux.conf 
+source ~/.tmux.conf
 ```
+或者再终端环境下输入：
+``` 
+tmux source ~/.tmux.conf
+```
+可能会提示`no server running on xxx`，新建一个会话再重新执行命令就可以了
+
 ### 修改默认前缀
 tmux命令都具有一个前缀命令(PREFIX)，默认的是ctrl+b，可以自己修改，改为ctrl+a。 
 在`~/.tmux.conf`中加入如下行：
@@ -146,6 +157,27 @@ setw -g mouse-select-window on
 setw -g mode-mouse on
 ```
 
+### 脚本
+
+脚本可以让我们构造自己的tmux布局模版
+
+比如下面这个脚本可以快速把当前窗口分割三个窗格并打印当前路径
+```
+# 选择0号窗格
+select-pane -t 0  
+# 纵向切割窗口并设置宽度为50%
+split-window -h -p 50
+# 选择1号窗格
+select-pane -t 1
+# 横向切割窗口并设置高度为50%
+split-window -v -p 50
+# 发送指令
+send-keys -t 0 'pwd' C-m
+# The C-m at the end is interpreted by Tmux as the enter key.
+select-pane -t 0
+```
+把这个脚本放在 `~/.tmux/preset`，然后在 `~/.tmux.conf` 绑定快捷键: `bind T source-file ~/.tmux/preset`  
+这样, 就可以通过快捷键 `C-b S-t` 一键分割当前窗格.
 
 ## 文档链接
 [http://man.openbsd.org/OpenBSD-current/man1/tmux.1](http://man.openbsd.org/OpenBSD-current/man1/tmux.1)  
