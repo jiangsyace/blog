@@ -48,31 +48,131 @@ public interface Comparator<T> {     int compare(T o1, T o2);  }
  
 java.lang.Runnable
 public interface Runnable{      void run(); } 
+
+java.util.concurrent.Callable
+public interface Callable<V>{     V call(); } 
 ```
 > 接口现在还可以拥有默认方法（即在类没有对方法进行实现时，其主体为方法提供默认实现的方法）。哪怕有很多默认方法，只要接口只定义了一个抽象方法，它就仍然是一个函数式接口。
 
-使用示例
+用函数式接口可以干什么呢？Lambda表达式允许你直接以内联的形式为函数式接口的抽象方法提供实现，并把整个表达式作为函数式接口的实例。你用匿名内部类也可以完成同样的事情，只不过比较笨拙：需要提供一个实现，然后再直接内联将它实例化。下面的代码是有效的，因为Runnable是一个只定义了一个抽象方法run 的函数式接口：
+
 ```
-productList.sort((Product p1, Product p2) -> p1.getId().compareTo(p2.getId()));
-new Thread( () -> System.out.println("Hello world") ).start();
+Runnable r1 = () -> System.out.println("Hello World 1");  
+ 
+Runnable r2 = new Runnable(){
+    public void run(){
+        System.out.println("Hello World 2");
+    }
+}; 
+ 
+public static void process(Runnable r){     
+    r.run(); 
+} 
+process(r1);
+process(r2);
+process(() -> System.out.println("Hello World 3"));  
 ```
 
 #### 函数描述符
 
-函数式接口的抽象方法的签名基本上就是Lambda表达式的签名。我们将这种抽象方法叫作 函数描述符。例如，Runnable接口可以看作一个什么也不接受什么也不返回（void）的函数的 签名，因为它只有一个叫作run的抽象方法，这个方法什么也不接受，什么也不返回（void）。① 我们在本章中使用了一个特殊表示法来描述Lambda和函数式接口的签名。() -> void代表 了参数列表为空，且返回void的函数。这正是Runnable接口所代表的。 举另一个例子，(Apple, Apple) -> int代表接受两个Apple作为参数且返回int的函数。我们会在3.4节和本章后面的 表3-2中提供关于函数描述符的更多信息。 
+函数式接口的抽象方法的签名基本上就是Lambda表达式的签名。我们将这种抽象方法叫作`函数描述符`。例如，Runnable接口只有一个叫作`run`的抽象方法，这个方法什么也不接受，什么也不返回（void），这个`函数描述符`的签名可以表示为 `() -> void`，这个签名在Lambda表达式中可以代表所有参数列表为空，且返回void的函数。
 
+下面两个方法可以传递一样的Lambda表达式，因为他们的签名是一样的，都是`() -> void`，但是他们代表着不同的函数式接口
+
+```
+process(() -> System.out.println("Hello World"));
+print(() -> System.out.println("Hello World"));
+
+public static void process(Runnable r){     
+    r.run(); 
+} 
+
+public static void print(Printer p){     
+    p.print(); 
+}
+
+public interface Printer{
+    void print();
+}
+
+```
 
 ### 使用函数式接口
 
-Java 8的库设计师帮你在java.util.function包中引入了几个新的函数式接口。我们接下 来会介绍Predicate、Consumer和Function
+Java 8在java.util.function包中引入了几个新的函数式接口。如果签名符合我们的需求，可以直接使用。
 
 #### Predicate
 
+java.util.function.Predicate<T>接口定义了一个名叫test的抽象方法，它接受泛型`<T>`对象，并返回一个boolean。在你需要表示一个涉及类型T的布尔表达式时，就可以使用这个接口。比如，你可以定义一个接受String对象的Lambda表达式，如下所示。 
+
+```
+@FunctionalInterface 
+public interface Predicate<T>{     
+    boolean test(T t); 
+} 
+ 
+public static <T> List<T> filter(List<T> list, Predicate<T> p) {     
+    List<T> results = new ArrayList<>();     
+    for(T s: list){         
+        if(p.test(s)){            
+           results.add(s);         
+        }     
+    }    
+    return results; 
+} 
+ 
+Predicate<String> nonEmptyStringPredicate = (String s) -> !s.isEmpty(); 
+List<String> nonEmpty = filter(listOfStrings, nonEmptyStringPredicate); 
+```
 
 #### Consumer
 
+java.util.function.Consumer<T>定义了一个名叫accept的抽象方法，它接受泛型`<T>`的对象，没有返回（void）。如果需要访问类型T的对象，并对其执行某些操作，就可以使用这个接口。比如，创建一个forEach方法，接受一个Integers的列表，并配合Lambda来打印列表中的所有元素。 
+
+```
+@FunctionalInterface 
+public interface Consumer<T>{     
+    void accept(T t); 
+} 
+public static <T> void forEach(List<T> list, Consumer<T> c){
+    for(T i: list){         
+        c.accept(i);     
+    } 
+}
+forEach( Arrays.asList(1,2,3,4,5),  (Integer i) -> System.out.println(i) );
+```
 
 #### Function
+
+java.util.function.Function<T, R>接口定义了一个叫作apply的方法，它接受一个泛型`<T>`的对象，并返回一个泛型R的对象。如果需要定将输入对象的信息映射到输出，就可以使用这个接口（比如提取苹果的重量，或把字符串映射为它的长度）。
+
+```
+@FunctionalInterface 
+public interface Function<T, R>{     
+    R apply(T t); 
+} 
+public static <T, R> List<R> map(List<T> list, Function<T, R> f) {     
+    List<R> result = new ArrayList<>();     
+    for(T s: list){         
+        result.add(f.apply(s));     
+    }    
+    return result; 
+} 
+// [7, 2, 6] 
+List<Integer> l = map(Arrays.asList("lambdas","in","action"), (String s) -> s.length() ); 
+```
+
+#### 原始类型特化 
+
+我们介绍了三个泛型函数式接口：Predicate<T>、Consumer<T>和Function<T,R>。还 有些函数式接口专为某些类型而设计。 
+
+Java 8为我们前面所说的函数式接口带来了一个专门的版本，以便在输入和输出都是原始类 型时避免自动装箱的操作。
+
+表3-2 Java 8中的常用函数式接口 
+
+函数式接口 函数描述符 原始类型特化 
+
+Predicate<T> T->boolean IntPredicate,LongPredicate, DoublePredicate Consumer<T> T->void IntConsumer,LongConsumer, DoubleConsumer Function<T,R> T->R IntFunction<R>, IntToDoubleFunction, IntToLongFunction, LongFunction<R>, LongToDoubleFunction, LongToIntFunction, DoubleFunction<R>, ToIntFunction<T>, ToDoubleFunction<T>,  ToLongFunction<T>
 
 
 ### 类型检查、类型推断以及限制
@@ -82,7 +182,10 @@ Java 8的库设计师帮你在java.util.function包中引入了几个新的函�
 
 Java编译器会从上下文（目标类型）推断出用什么函数式接 口来配合Lambda表达式，这意味着它也可以推断出适合Lambda的签名，因为函数描述符可以通 过目标类型来得到。这样做的好处在于，编译器可以了解Lambda表达式的参数类型，这样就可 以在Lambda语法中省去标注参数类型。换句话说，Java编译器会像下面这样推断Lambda的参数 类型：① 
 ```
-List<Apple> greenApples =     filter(inventory, a -> "green".equals(a.getColor())); 
+
+List<Apple> greenApples = filter(inventory, (Apple a) -> "green".equals(a.getColor())); 
+
+List<Apple> greenApples = filter(inventory, a -> "green".equals(a.getColor())); 
 ```
 参数a没有显示类型
 
@@ -132,24 +235,28 @@ separator = ".";
 
 对于一个现有构造函数，你可以利用它的名称和关键字new来创建它的一个引用： ClassName::new。它的功能与指向静态方法的引用类似。例如，假设有一个构造函数没有参数。 它适合Supplier的签名() -> Apple。你可以这样做： 
 
+```
 Supplier<Apple> c1 = Apple::new; Apple a1 = c1.get(); 
- 
+```
+
 这就等价于： 
- 
+
+```
 Supplier<Apple> c1 = () -> new Apple(); Apple a1 = c1.get(); 
- 
+```
+
 如果你的构造函数的签名是Apple(Integer weight)，那么它就适合Function接口的签 名，于是你可以这样写： 
- 
+```
 Function<Integer, Apple> c2 = Apple::new;  Apple a2 = c2.apply(110);  
- 
+```
 这就等价于： 
- 
+```
 Function<Integer, Apple> c2 = (weight) -> new Apple(weight);  Apple a2 = c2.apply(110); 
+```
 
 ### 复合Lambda表达式
 
 Java 8的好几个函数式接口都有为方便而设计的方法。具体而言，许多函数式接口，比如用 于传递Lambda表达式的Comparator、Function和Predicate都提供了允许你进行复合的方法。 
-
 
 #### 比较器复合
 
