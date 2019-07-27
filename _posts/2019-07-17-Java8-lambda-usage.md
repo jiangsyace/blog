@@ -7,7 +7,7 @@ tags:
 - java
 ---
 
-Java8新增了非常多的新特性，其中部分特性在开发过程中很有用。Java 8 (又称为 jdk 1.8) 是 Java 语言开发的一个主要版本。 Oracle 公司于 2014 年 3 月 18 日发布 Java 8 ，它支持函数式编程，新的 JavaScript 引擎，新的日期 API，新的Stream API 等。
+Java8新增了非常多的新特性，其中部分特性在开发过程中很有用，比如Lambda表达式。
 
 <!-- more -->
 
