@@ -24,13 +24,13 @@ Lambda 的基本语法是
 
 Lambda使用实例：
 
-| 布尔表达式 | (List<String> list) -> list.isEmpty()  |
-| -- | -- |
-| 创建对象 | () -> new Apple(10)  |
-| 消费一个对象 | (Apple a) -> {      System.out.println(a.getWeight()); }  |
-| 从一个对象中选择/抽取 | (String s) -> s.length()  |
-| 组合两个值 | (int a, int b) -> a * b  |
-| 比较两个对象 | (Apple a1, Apple a2) -> a1.getWeight().compareTo(a2.getWeight()) |
+| 布尔表达式       | (List<String> list) -> list.isEmpty()    |
+| --------------- | ---------------------------------------- |
+| 创建对象         | () -> new Apple(10)                      |
+| 消费一个对象      | (Apple a) -> {      System.out.println(a.getWeight()); } |
+| 从一个对象中选择/抽取 | (String s) -> s.length()                 |
+| 组合两个值       | (int a, int b) -> a * b                  |
+| 比较两个对象      | (Apple a1, Apple a2) -> a1.getWeight().compareTo(a2.getWeight()) |
 
 
 ### **什么情况下可使用lambda表达式？**
@@ -43,13 +43,13 @@ Lambda使用实例：
 
 ```
 java.util.Comparator
-public interface Comparator<T> {     int compare(T o1, T o2);  } 
+public interface Comparator<T> { int compare(T o1, T o2);  } 
  
 java.lang.Runnable
-public interface Runnable{      void run(); } 
+public interface Runnable{ void run(); } 
 
 java.util.concurrent.Callable
-public interface Callable<V>{     V call(); } 
+public interface Callable<V>{ V call(); } 
 ```
 > 接口现在还可以拥有默认方法（即在类没有对方法进行实现时，其主体为方法提供默认实现的方法）。哪怕有很多默认方法，只要接口只定义了一个抽象方法，它就仍然是一个函数式接口。
 
@@ -102,7 +102,7 @@ Java 8在java.util.function包中引入了几个新的函数式接口。如果�
 
 #### Predicate
 
-java.util.function.Predicate<T>接口定义了一个名叫test的抽象方法，它接受泛型`<T>`对象，并返回一个boolean。在你需要表示一个涉及类型T的布尔表达式时，就可以使用这个接口。比如，你可以定义一个接受String对象的Lambda表达式，如下所示。 
+java.util.function.Predicate<T>接口定义了一个名叫test的抽象方法，它接受泛型`T`对象，并返回一个boolean。在你需要表示一个涉及类型T的布尔表达式时，就可以使用这个接口。比如，你可以定义一个接受String对象的Lambda表达式，如下所示。 
 
 ```
 @FunctionalInterface 
@@ -126,7 +126,7 @@ List<String> nonEmpty = filter(listOfStrings, nonEmptyStringPredicate);
 
 #### Consumer
 
-java.util.function.Consumer<T>定义了一个名叫accept的抽象方法，它接受泛型`<T>`的对象，没有返回（void）。如果需要访问类型T的对象，并对其执行某些操作，就可以使用这个接口。比如，创建一个forEach方法，接受一个Integers的列表，并配合Lambda来打印列表中的所有元素。 
+java.util.function.Consumer<T>定义了一个名叫accept的抽象方法，它接受泛型`T`的对象，没有返回（void）。如果需要访问类型T的对象，并对其执行某些操作，就可以使用这个接口。比如，创建一个forEach方法，接受一个Integers的列表，并配合Lambda来打印列表中的所有元素。 
 
 ```
 @FunctionalInterface 
@@ -143,7 +143,7 @@ forEach( Arrays.asList(1,2,3,4,5),  (Integer i) -> System.out.println(i) );
 
 #### Function
 
-java.util.function.Function<T, R>接口定义了一个叫作apply的方法，它接受一个泛型`<T>`的对象，并返回一个泛型R的对象。如果需要定将输入对象的信息映射到输出，就可以使用这个接口（比如提取苹果的重量，或把字符串映射为它的长度）。
+java.util.function.Function<T, R>接口定义了一个叫作apply的方法，它接受一个泛型`T`的对象，并返回一个泛型R的对象。如果需要定将输入对象的信息映射到输出，就可以使用这个接口（比如提取苹果的重量，或把字符串映射为它的长度）。
 
 ```
 @FunctionalInterface 
@@ -167,17 +167,17 @@ List<Integer> l = map(Arrays.asList("lambdas","in","action"), (String s) -> s.le
 
 Java 8中的提供的常用函数式接口 ：
 
-| 函数式接口 | 函数描述符 | 原始类型特化 |
-| -- | -- | -- |
-| Predicate<T> | T->boolean | IntPredicate,LongPredicate, DoublePredicate |
-| Consumer<T> | T->void | IntConsumer,LongConsumer, DoubleConsumer |
-| Function<T,R> | T->R | IntFunction<R>, IntToDoubleFunction, IntToLongFunction, LongFunction<R>, LongToDoubleFunction, LongToIntFunction, DoubleFunction<R>, ToIntFunction<T>, ToDoubleFunction<T>,  ToLongFunction<T> |
-| Supplier<T> | ()->T | BooleanSupplier,IntSupplier, LongSupplier, DoubleSupplier |
-| UnaryOperator<T> | T->T | IntUnaryOperator, LongUnaryOperator, DoubleUnaryOperator |
-| BinaryOperator<T> | (T,T)->T | IntBinaryOperator, LongBinaryOperator, DoubleBinaryOperator |
-| BiPredicate<L,R> | (L,R)->boolean |
-| BiConsumer<T,U> | (T,U)->void | ObjIntConsumer<T>, ObjLongConsumer<T>, ObjDoubleConsumer<T> |
-| BiFunction<T,U,R> | (T,U)->R | ToIntBiFunction<T,U>, ToLongBiFunction<T,U>, ToDoubleBiFunction<T,U> |
+| 函数式接口         | 函数描述符      | 原始类型特化                              |
+| ----------------- | -------------- | ---------------------------------------- |
+| Predicate<T>      | T->boolean     | IntPredicate,LongPredicate, DoublePredicate |
+| Consumer<T>       | T->void        | IntConsumer,LongConsumer, DoubleConsumer |
+| Function<T,R>     | T->R           | IntFunction<R>, IntToDoubleFunction, IntToLongFunction, LongFunction<R>, LongToDoubleFunction, LongToIntFunction, DoubleFunction<R>, ToIntFunction<T>, ToDoubleFunction<T>,  ToLongFunction<T> |
+| Supplier<T>       | ()->T          | BooleanSupplier,IntSupplier, LongSupplier, DoubleSupplier |
+| UnaryOperator<T>  | T->T           | IntUnaryOperator, LongUnaryOperator, DoubleUnaryOperator |
+| BinaryOperator<T> | (T,T)->T       | IntBinaryOperator, LongBinaryOperator, DoubleBinaryOperator |
+| BiPredicate<L,R>  | (L,R)->boolean |                                          |
+| BiConsumer<T,U>   | (T,U)->void    | ObjIntConsumer<T>, ObjLongConsumer<T>, ObjDoubleConsumer<T> |
+| BiFunction<T,U,R> | (T,U)->R       | ToIntBiFunction<T,U>, ToLongBiFunction<T,U>, ToDoubleBiFunction<T,U> |
 
 
 ### 类型检查、类型推断以及限制
@@ -215,7 +215,7 @@ final String separator = ",";
 Arrays.asList( "a", "b", "d" ).forEach( 
     ( String e ) -> System.out.print( e + separator ) );
 ```
-	
+
 被隐式转换为final后，不能再更改值，如下面的代码块编译不通过
 
 ```
@@ -243,15 +243,15 @@ inventory.sort(comparing(Apple::getWeight));
 
 Java 8中Lambda及其等效方法引用的例子：
 
-| Lambda | 等效的方法引用 |
-| -- | -- |
-| (Apple a) -> a.getWeight() | Apple::getWeight  |
-| () -> Thread.currentThread().dumpStack() | Thread.currentThread()::dumpStack  |
-| (str, i) -> str.substring(i) | String::substring  |
-| (String s) -> System.out.println(s) | System.out::println |
+| Lambda                                   | 等效的方法引用                           |
+| ---------------------------------------- | --------------------------------- |
+| (Apple a) -> a.getWeight()               | Apple::getWeight                  |
+| () -> Thread.currentThread().dumpStack() | Thread.currentThread()::dumpStack |
+| (str, i) -> str.substring(i)             | String::substring                 |
+| (String s) -> System.out.println(s)      | System.out::println               |
 
 你可以把方法引用看作针对仅仅涉及单一方法的Lambda的语法糖，因为你表达同样的事情时要写的代码更少了。 
- 
+
 **如何构建方法引用？** 
 (1) 指向静态方法的方法引用（例如Integer的parseInt方法，写作`Integer::parseInt`）。
 (2) 指向任意类型实例方法的方法引用（例如String 的 length 方法，写作 `String::length`）。 
@@ -322,12 +322,12 @@ Java 8的好几个函数式接口都有为方便而设计的方法。具体而�
 Comparator<Apple> c = Comparator.comparing(Apple::getWeight); 
 ```
 1. 逆序  
-如果你想要对苹果按重量递减排序怎么办？用不着去建立另一个Comparator的实例。接口有一个默认方法reversed可以使给定的比较器逆序。因此仍然用开始的那个比较器，只要修改一下前一个例子就可以对苹果按重量递减排序： 
+   如果你想要对苹果按重量递减排序怎么办？用不着去建立另一个Comparator的实例。接口有一个默认方法reversed可以使给定的比较器逆序。因此仍然用开始的那个比较器，只要修改一下前一个例子就可以对苹果按重量递减排序： 
 ```
 inventory.sort(comparing(Apple::getWeight).reversed()); 
 ```
 2. 比较器链  
-上面说得都很好，但如果发现有两个苹果一样重怎么办？哪个苹果应该排在前面呢？你可能 需要再提供一个Comparator来进一步定义这个比较。比如，在按重量比较两个苹果之后，你可能想要按原产国排序。thenComparing方法就是做这个用的。它接受一个函数作为参数（就像comparing方法一样），如果两个对象用第一个Comparator比较之后是一样的，就提供第二个Comparator。你又可以优雅地解决这个问题了： 
+   上面说得都很好，但如果发现有两个苹果一样重怎么办？哪个苹果应该排在前面呢？你可能 需要再提供一个Comparator来进一步定义这个比较。比如，在按重量比较两个苹果之后，你可能想要按原产国排序。thenComparing方法就是做这个用的。它接受一个函数作为参数（就像comparing方法一样），如果两个对象用第一个Comparator比较之后是一样的，就提供第二个Comparator。你又可以优雅地解决这个问题了： 
 ```
 inventory.sort(comparing(Apple::getWeight)
         .reversed() //按重量递减排序
